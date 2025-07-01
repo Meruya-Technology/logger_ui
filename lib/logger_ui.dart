@@ -6,6 +6,8 @@ export 'src/infrastructure/mappers/log_mapper.dart';
 export 'src/domain/repositories/log_repository.dart';
 export 'src/domain/entities/log.dart';
 export 'src/domain/entities/log_type.dart';
+export 'src/domain/entities/payload_object.dart';
+export 'src/domain/entities/payload_type.dart';
 export 'src/presentation/pages/logger_list_page.dart';
 export 'src/common/core/logger_stream_manager.dart';
 import 'package:logger_ui/logger_ui.dart';

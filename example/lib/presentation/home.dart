@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                   title: 'Info log',
                   type: LogType.info,
                   flags: 'example,ble,lte',
-                  createdAt: DateTime.now().microsecondsSinceEpoch,
+                  createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
               LoggerStreamManager.sendData(1);
@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
                   title: 'Warning',
                   type: LogType.warning,
                   flags: 'auth,http_call,ble',
-                  createdAt: DateTime.now().microsecondsSinceEpoch,
+                  createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
               LoggerStreamManager.sendData(1);
@@ -73,7 +73,7 @@ class HomePage extends StatelessWidget {
                   title: 'Error',
                   type: LogType.error,
                   flags: 'keypair,lte,ble',
-                  createdAt: DateTime.now().microsecondsSinceEpoch,
+                  createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
               LoggerStreamManager.sendData(1);
@@ -88,7 +88,30 @@ class HomePage extends StatelessWidget {
                   title: 'Success',
                   type: LogType.success,
                   flags: 'http_call,lte,mqtt',
-                  createdAt: DateTime.now().microsecondsSinceEpoch,
+                  createdAt: DateTime.now().millisecondsSinceEpoch,
+                ),
+              );
+              LoggerStreamManager.sendData(1);
+            },
+          ),
+          Divider(),
+
+          ListTile(
+            title: Text('Info log with payload'),
+            subtitle: Text('Create new info log with list payload'),
+            onTap: () {
+              loggerUi.logRepository?.createLog(
+                Log(
+                  title: 'Info log',
+                  type: LogType.info,
+                  flags: 'example,ble,lte',
+                  payloadType: PayloadType.list,
+                  payload: [
+                    PayloadObject(label: 'key1', value: 'value1'),
+                    PayloadObject(label: 'key2', value: 'value2'),
+                    PayloadObject(label: 'key3', value: 'value3'),
+                  ],
+                  createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
               LoggerStreamManager.sendData(1);
