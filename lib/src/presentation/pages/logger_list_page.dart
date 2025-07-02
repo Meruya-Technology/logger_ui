@@ -90,114 +90,196 @@ class _LoggerListPageState extends State<LoggerListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Log list'),
-        actions: [
-          FutureBuilder(
-            future: _logs,
-            builder: (context, snapshot) {
-              return Visibility(
-                visible: snapshot.hasData,
-                replacement: SizedBox.shrink(),
-                child: IconButton(
-                  icon: Icon(Icons.mark_email_read),
-                  onPressed: () {
-                    readAllLogs(context);
-                  },
-                ),
-              );
-            },
-          ),
-          FutureBuilder(
-            future: _logs,
-            builder: (context, snapshot) {
-              return Visibility(
-                visible: snapshot.hasData,
-                replacement: SizedBox.shrink(),
-                child: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    deleteLogs();
-                  },
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          FutureBuilder(
-            future: _flags,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Wrap(
-                      spacing: 8,
-                      children: snapshot.data!
-                          .map(
-                            (flag) => FilterChip(
-                              showCheckmark: false,
-                              label: Text(flag),
-                              selected: _selectedFlags.contains(flag),
-                              onSelected: (value) {
-                                changeSelectedFlags(flag, value);
-                              },
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                );
-              } else {
-                return SizedBox.shrink();
-              }
-            },
-          ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: refresh,
-              child: FutureBuilder(
-                future: _logs,
-                builder: (context, snapshot) {
-                  debugPrint('Logs: ${snapshot.data}');
-                  if (snapshot.hasData) {
-                    return ListView.separated(
-                      padding: EdgeInsets.all(16),
-                      itemCount: snapshot.data?.length ?? 0,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 16),
-                      itemBuilder: (context, index) {
-                        final data = snapshot.data![index];
-                        return LoggerListTile(log: data);
-                      },
-                    );
-                  } else {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'No logs found',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          Text(
-                            'Log some activities to see them here.',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    );
-                  }
+      appBar: appBar(context),
+      body: Column(children: [filterSection(context), listSection(context)]),
+    );
+  }
+
+  PreferredSizeWidget appBar(BuildContext context) {
+    return AppBar(
+      title: Text('Log list'),
+      actions: [
+        FutureBuilder(
+          future: _logs,
+          builder: (context, snapshot) {
+            return Visibility(
+              visible: snapshot.hasData,
+              replacement: SizedBox.shrink(),
+              child: IconButton(
+                icon: Icon(Icons.mark_email_read),
+                onPressed: () {
+                  readAllLogs(context);
                 },
               ),
+            );
+          },
+        ),
+        FutureBuilder(
+          future: _logs,
+          builder: (context, snapshot) {
+            return Visibility(
+              visible: snapshot.hasData,
+              replacement: SizedBox.shrink(),
+              child: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  deleteLogs();
+                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget body(BuildContext context) {
+    return Column(
+      children: [
+        FutureBuilder(
+          future: _flags,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Wrap(
+                    spacing: 8,
+                    children: snapshot.data!
+                        .map(
+                          (flag) => FilterChip(
+                            showCheckmark: false,
+                            label: Text(flag),
+                            selected: _selectedFlags.contains(flag),
+                            onSelected: (value) {
+                              changeSelectedFlags(flag, value);
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              );
+            } else {
+              return SizedBox.shrink();
+            }
+          },
+        ),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: refresh,
+            child: FutureBuilder(
+              future: _logs,
+              builder: (context, snapshot) {
+                debugPrint('Logs: ${snapshot.data}');
+                if (snapshot.hasData) {
+                  return ListView.separated(
+                    padding: EdgeInsets.all(16),
+                    itemCount: snapshot.data?.length ?? 0,
+                    separatorBuilder: (context, index) => SizedBox(height: 16),
+                    itemBuilder: (context, index) {
+                      final data = snapshot.data![index];
+                      return LoggerListTile(log: data);
+                    },
+                  );
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No logs found',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        Text(
+                          'Log some activities to see them here.',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
             ),
           ),
-        ],
+        ),
+      ],
+    );
+  }
+
+  Widget filterSection(BuildContext context) {
+    return FutureBuilder(
+      future: _flags,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Wrap(
+                spacing: 8,
+                children: snapshot.data!
+                    .map(
+                      (flag) => FilterChip(
+                        showCheckmark: false,
+                        label: Text(flag),
+                        selected: _selectedFlags.contains(flag),
+                        onSelected: (value) {
+                          changeSelectedFlags(flag, value);
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          );
+        } else {
+          return SizedBox.shrink();
+        }
+      },
+    );
+  }
+
+  Widget listSection(BuildContext context) {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: refresh,
+        child: FutureBuilder(
+          future: _logs,
+          builder: (context, snapshot) {
+            debugPrint('Logs: ${snapshot.data}');
+            if (snapshot.hasData) {
+              return ListView.separated(
+                padding: EdgeInsets.all(16),
+                itemCount: snapshot.data?.length ?? 0,
+                separatorBuilder: (context, index) => SizedBox(height: 16),
+                itemBuilder: (context, index) {
+                  final data = snapshot.data![index];
+                  return LoggerListTile(log: data);
+                },
+              );
+            } else {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No logs found',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Text(
+                      'Log some activities to see them here.',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
