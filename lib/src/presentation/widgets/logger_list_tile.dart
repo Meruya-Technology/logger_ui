@@ -91,6 +91,8 @@ class LoggerListTile extends StatelessWidget {
               child: Visibility(
                 visible: log.payloadType == PayloadType.text,
                 replacement: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     final payloadObject =
                         (log.payload as List<PayloadObject>)[index];

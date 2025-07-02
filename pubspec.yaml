@@ -1,5 +1,5 @@
 name: logger_ui
-description: "A new Flutter package project."
+description: "Stream logger and viewer for Sequential inflight debugging"
 version: 0.0.1
 homepage:
 
