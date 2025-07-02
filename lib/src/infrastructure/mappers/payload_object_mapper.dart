@@ -4,7 +4,7 @@ import 'package:logger_ui/src/domain/entities/payload_object.dart';
 
 class PayloadObjectMapper {
   static List<PayloadObject> toEntity(String string) {
-    final Map<String, String?> jsonMap = jsonDecode(string);
+    final jsonMap = jsonDecode(string) as Map<String, dynamic>;
     final objects = jsonMap.entries
         .map((entry) => PayloadObject(label: entry.key, value: entry.value))
         .toList();

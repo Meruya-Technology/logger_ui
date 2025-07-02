@@ -163,6 +163,7 @@ class _LoggerListPageState extends State<LoggerListPage> {
               child: FutureBuilder(
                 future: _logs,
                 builder: (context, snapshot) {
+                  debugPrint('Logs: ${snapshot.data}');
                   if (snapshot.hasData) {
                     return ListView.separated(
                       padding: EdgeInsets.all(16),

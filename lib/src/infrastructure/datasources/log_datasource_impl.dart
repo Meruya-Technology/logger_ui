@@ -31,7 +31,7 @@ class LogDatasourceImpl implements LogDatasource {
       whereArgs: whereArgs, // Correctly pass the where arguments
       orderBy: 'created_at DESC',
     );
-
+    debugPrint('Rows: $rows');
     var models = List<LogModel>.from(rows.map((row) => LogModel.fromJson(row)));
     return rows.isNotEmpty ? models : null;
   }

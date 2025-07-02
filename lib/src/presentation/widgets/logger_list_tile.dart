@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:logger_ui/logger_ui.dart';
-import 'package:logger_ui/src/domain/entities/payload_object.dart';
-import 'package:logger_ui/src/domain/entities/payload_type.dart';
 
 class LoggerListTile extends StatelessWidget {
   final Log log;
@@ -89,8 +87,14 @@ class LoggerListTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Visibility(
-                visible: log.payloadType == PayloadType.text,
-                replacement: ListView.separated(
+                visible: log.payloadType == PayloadType.list,
+                replacement: Text(
+                  log.payload != null
+                      ? log.payload.toString()
+                      : 'No payload provided',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                child: ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
@@ -112,10 +116,6 @@ class LoggerListTile extends StatelessWidget {
                   },
                   separatorBuilder: (context, index) => SizedBox(height: 4),
                   itemCount: (log.payload as List<PayloadObject>?)?.length ?? 0,
-                ),
-                child: Text(
-                  log.payload ?? 'No payload provided',
-                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
             ),
