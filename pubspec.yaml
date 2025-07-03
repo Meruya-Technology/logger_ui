@@ -1,6 +1,6 @@
 name: logger_ui
 description: "Stream logger and viewer for Sequential inflight debugging"
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/Meruya-Techhnology/logger_ui
 
 environment:

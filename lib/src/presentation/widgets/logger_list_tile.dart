@@ -61,13 +61,27 @@ class LoggerListTile extends StatelessWidget {
                   children: [
                     Text(
                       log.title,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: switch (log.type) {
+                          LogType.error => Colors.red,
+                          LogType.info => Colors.blue,
+                          LogType.success => Colors.green,
+                          LogType.warning => Colors.yellow,
+                        },
+                      ),
                     ),
                     Text(
                       DateTime.fromMillisecondsSinceEpoch(
                         log.createdAt,
                       ).toString(),
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: switch (log.type) {
+                          LogType.error => Colors.red,
+                          LogType.info => Colors.blue,
+                          LogType.success => Colors.green,
+                          LogType.warning => Colors.yellow,
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -105,11 +119,29 @@ class LoggerListTile extends StatelessWidget {
                       children: [
                         Text(
                           payloadObject.label,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: switch (log.type) {
+                                  LogType.error => Colors.red,
+                                  LogType.info => Colors.blue,
+                                  LogType.success => Colors.green,
+                                  LogType.warning => Colors.yellow,
+                                },
+                              ),
                         ),
-                        Text(
-                          payloadObject.value ?? 'null',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        Expanded(
+                          child: Text(
+                            payloadObject.value ?? 'null',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: switch (log.type) {
+                                    LogType.error => Colors.red,
+                                    LogType.info => Colors.blue,
+                                    LogType.success => Colors.green,
+                                    LogType.warning => Colors.yellow,
+                                  },
+                                ),
+                          ),
                         ),
                       ],
                     );

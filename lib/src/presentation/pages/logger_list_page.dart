@@ -135,6 +135,7 @@ class _LoggerListPageState extends State<LoggerListPage> {
 
   Widget body(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FutureBuilder(
           future: _flags,
@@ -145,6 +146,7 @@ class _LoggerListPageState extends State<LoggerListPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.start,
                     spacing: 8,
                     children: snapshot.data!
                         .map(
@@ -172,7 +174,6 @@ class _LoggerListPageState extends State<LoggerListPage> {
             child: FutureBuilder(
               future: _logs,
               builder: (context, snapshot) {
-                debugPrint('Logs: ${snapshot.data}');
                 if (snapshot.hasData) {
                   return ListView.separated(
                     padding: EdgeInsets.all(16),
