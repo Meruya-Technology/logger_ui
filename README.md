@@ -11,29 +11,78 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/to/develop-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Logger UI
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Logger UI is a tools that can be used to trace sequential proccess that hard to trace with traditional approach, while maintain the debugging proccess inflight.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Before using the Logger UI, you need to know that Logger UI working with 3rd package such as [sqflite](https://pub.dev/packages/sqflite) for the database
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Initialize the Logger UI, because depend on sqflite. Make sure to initiate the `WidgetsFlutterBinding.ensureInitialized();` first.
 
 ```dart
-const like = 'sample';
+void main() {
+  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  LoggerUi().initialize();
+}
+```
+
+### Writing the log
+```dart
+// initialize instance
+final loggerUi = LoggerUI();
+
+// create log trought the repository
+loggerUi.createLog(
+    Log(
+        title: 'Warning',
+        type: LogType.warning,
+        flags: 'auth,http_call,ble',
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+    ),
+);
+```
+
+### Listening to the event stream for entrypoint / badge
+```dart
+LoggerStreamManager.stream;
+```
+Retrieve the stream from LoggerStreamManager singleton, it will send a int data whenever the Log is created. 
+
+### Fields
+LogType (enum)
+- info
+- warning
+- success
+- error
+
+PayloadType (enum)
+- text
+- list
+
+Payload
+- Text, Self explanatory just write any text to it.
+- List, List of `PayloadObject`
+    - String label
+    - String? value
+
+Flags (String) singular or multiple, separated by comma `,`
+example : `http_call,auth,user`
+
+
+### Accessing the Explorer
+Navigate straight to the page
+```dart
+Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => LoggerListPage()),
+);
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Feel free to contribute, straight away to the [logger_ui](https://github.com/Meruya-Technology/logger_ui). 
