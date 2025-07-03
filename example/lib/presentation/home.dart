@@ -17,7 +17,10 @@ class HomePage extends StatelessWidget {
             visible: snapshot.hasData,
             child: FloatingActionButton(
               onPressed: () {},
-              child: Icon(Icons.notifications),
+              child: Badge.count(
+                count: snapshot.data ?? 0,
+                child: Icon(Icons.notifications),
+              ),
             ),
           );
         },
@@ -38,7 +41,7 @@ class HomePage extends StatelessWidget {
             title: Text('Info log'),
             subtitle: Text('Create new info log'),
             onTap: () {
-              loggerUi.logRepository?.createLog(
+              loggerUi.createLog(
                 Log(
                   title: 'Info log',
                   type: LogType.info,
@@ -46,14 +49,13 @@ class HomePage extends StatelessWidget {
                   createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
-              LoggerStreamManager.sendData(1);
             },
           ),
           ListTile(
             title: Text('Warning log'),
             subtitle: Text('Create new warning log'),
             onTap: () {
-              loggerUi.logRepository?.createLog(
+              loggerUi.createLog(
                 Log(
                   title: 'Warning',
                   type: LogType.warning,
@@ -61,14 +63,13 @@ class HomePage extends StatelessWidget {
                   createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
-              LoggerStreamManager.sendData(1);
             },
           ),
           ListTile(
             title: Text('Error log'),
             subtitle: Text('Create new error log'),
             onTap: () {
-              loggerUi.logRepository?.createLog(
+              loggerUi.createLog(
                 Log(
                   title: 'Error',
                   type: LogType.error,
@@ -76,14 +77,13 @@ class HomePage extends StatelessWidget {
                   createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
-              LoggerStreamManager.sendData(1);
             },
           ),
           ListTile(
             title: Text('Success log'),
             subtitle: Text('Create new success log'),
             onTap: () {
-              loggerUi.logRepository?.createLog(
+              loggerUi.createLog(
                 Log(
                   title: 'Success',
                   type: LogType.success,
@@ -91,7 +91,6 @@ class HomePage extends StatelessWidget {
                   createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
-              LoggerStreamManager.sendData(1);
             },
           ),
           Divider(),
@@ -100,7 +99,7 @@ class HomePage extends StatelessWidget {
             title: Text('Info log with payload'),
             subtitle: Text('Create new info log with list payload'),
             onTap: () {
-              loggerUi.logRepository?.createLog(
+              loggerUi.createLog(
                 Log(
                   title: 'Info log',
                   type: LogType.info,
@@ -114,7 +113,6 @@ class HomePage extends StatelessWidget {
                   createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
               );
-              LoggerStreamManager.sendData(1);
             },
           ),
         ],

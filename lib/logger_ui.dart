@@ -71,10 +71,13 @@ class LoggerUi {
 
   Future<bool>? read(List<int> ids) {
     final logRepository = _instance.logRepository;
-    return logRepository?.readLog(ids);
+    return logRepository?.readLog(ids).then((result) {
+      notifyStream(count: result ? 0 : null);
+      return result;
+    });
   }
 
-  Future<void> notifyStream() async {
+  Future<void> notifyStream({int? count}) async {
     final recordCounts = await countLogs();
     LoggerStreamManager.sendData(recordCounts);
   }
