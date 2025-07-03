@@ -95,61 +95,60 @@ class LoggerListTile extends StatelessWidget {
                 LogType.error => Colors.red,
                 LogType.info => Colors.blue,
                 LogType.success => Colors.green,
-                LogType.warning => Colors.yellow,
+                LogType.warning => const Color.fromRGBO(255, 235, 59, 1),
               },
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Visibility(
-                visible: log.payloadType == PayloadType.list,
-                replacement: Text(
-                  log.payload != null
-                      ? log.payload.toString()
-                      : 'No payload provided',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final payloadObject =
-                        (log.payload as List<PayloadObject>)[index];
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          payloadObject.label,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: switch (log.type) {
-                                  LogType.error => Colors.red,
-                                  LogType.info => Colors.blue,
-                                  LogType.success => Colors.green,
-                                  LogType.warning => Colors.yellow,
-                                },
+              child: log.payloadType == PayloadType.list
+                  ? ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final payloadObject =
+                            (log.payload as List<PayloadObject>)[index];
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              payloadObject.label,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: switch (log.type) {
+                                      LogType.error => Colors.red,
+                                      LogType.info => Colors.blue,
+                                      LogType.success => Colors.green,
+                                      LogType.warning => Colors.yellow,
+                                    },
+                                  ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                payloadObject.value ?? 'null',
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
+                                      color: switch (log.type) {
+                                        LogType.error => Colors.red,
+                                        LogType.info => Colors.blue,
+                                        LogType.success => Colors.green,
+                                        LogType.warning => Colors.yellow,
+                                      },
+                                    ),
                               ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            payloadObject.value ?? 'null',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: switch (log.type) {
-                                    LogType.error => Colors.red,
-                                    LogType.info => Colors.blue,
-                                    LogType.success => Colors.green,
-                                    LogType.warning => Colors.yellow,
-                                  },
-                                ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(height: 4),
-                  itemCount: (log.payload as List<PayloadObject>?)?.length ?? 0,
-                ),
-              ),
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(height: 4),
+                      itemCount:
+                          (log.payload as List<PayloadObject>?)?.length ?? 0,
+                    )
+                  : Text(
+                      log.payload != null
+                          ? log.payload.toString()
+                          : 'No payload provided',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
             ),
           ],
         ),
