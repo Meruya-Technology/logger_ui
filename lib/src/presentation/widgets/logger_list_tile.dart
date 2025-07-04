@@ -7,151 +7,88 @@ class LoggerListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      margin: EdgeInsets.zero,
-      color: switch (log.type) {
-        LogType.error => Colors.red.shade100,
-        LogType.info => Colors.blue.shade100,
-        LogType.success => Colors.green.shade100,
-        LogType.warning => Colors.yellow.shade100,
-      },
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: !log.isRead
-            ? BorderSide(
-                color: switch (log.type) {
-                  LogType.error => Colors.red,
-                  LogType.info => Colors.blue,
-                  LogType.success => Colors.green,
-                  LogType.warning => Colors.yellow,
-                },
-                width: 1,
-              )
-            : BorderSide.none,
+    return Theme(
+      data: Theme.of(context).copyWith(
+        splashColor: Colors.transparent,
+        dividerColor: Colors.transparent,
       ),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          splashColor: Colors.transparent,
-          dividerColor: Colors.transparent,
-        ),
-        child: ExpansionTile(
-          childrenPadding: EdgeInsets.zero,
-          title: Row(
-            spacing: 8,
-            children: [
-              Icon(
-                switch (log.type) {
-                  LogType.error => Icons.error,
-                  LogType.info => Icons.info,
-                  LogType.success => Icons.check_circle,
-                  LogType.warning => Icons.warning,
-                },
-                color: switch (log.type) {
-                  LogType.error => Colors.red,
-                  LogType.info => Colors.blue,
-                  LogType.success => Colors.green,
-                  LogType.warning => Colors.yellow,
-                },
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 4,
-                  children: [
-                    Text(
-                      log.title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: switch (log.type) {
-                          LogType.error => Colors.red,
-                          LogType.info => Colors.blue,
-                          LogType.success => Colors.green,
-                          LogType.warning => Colors.yellow,
-                        },
-                      ),
-                    ),
-                    Text(
-                      DateTime.fromMillisecondsSinceEpoch(
-                        log.createdAt,
-                      ).toString(),
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: switch (log.type) {
-                          LogType.error => Colors.red,
-                          LogType.info => Colors.blue,
-                          LogType.success => Colors.green,
-                          LogType.warning => Colors.yellow,
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      child: ExpansionTile(
+        childrenPadding: EdgeInsets.zero,
+        title: Row(
+          spacing: 8,
           children: [
-            Divider(
-              height: 1,
+            Icon(
+              switch (log.type) {
+                LogType.error => Icons.error,
+                LogType.info => Icons.info,
+                LogType.success => Icons.check_circle,
+                LogType.warning => Icons.warning,
+              },
               color: switch (log.type) {
                 LogType.error => Colors.red,
                 LogType.info => Colors.blue,
                 LogType.success => Colors.green,
-                LogType.warning => const Color.fromRGBO(255, 235, 59, 1),
+                LogType.warning => Colors.yellow,
               },
             ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: log.payloadType == PayloadType.list
-                  ? ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final payloadObject =
-                            (log.payload as List<PayloadObject>)[index];
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              payloadObject.label,
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(
-                                    color: switch (log.type) {
-                                      LogType.error => Colors.red,
-                                      LogType.info => Colors.blue,
-                                      LogType.success => Colors.green,
-                                      LogType.warning => Colors.yellow,
-                                    },
-                                  ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                payloadObject.value ?? 'null',
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: switch (log.type) {
-                                        LogType.error => Colors.red,
-                                        LogType.info => Colors.blue,
-                                        LogType.success => Colors.green,
-                                        LogType.warning => Colors.yellow,
-                                      },
-                                    ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(height: 4),
-                      itemCount:
-                          (log.payload as List<PayloadObject>?)?.length ?? 0,
-                    )
-                  : Text(
-                      log.payload != null
-                          ? log.payload.toString()
-                          : 'No payload provided',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: [
+                  Text(
+                    log.title,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    DateTime.fromMillisecondsSinceEpoch(
+                      log.createdAt,
+                    ).toString(),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: log.payloadType == PayloadType.list
+                ? ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final payloadObject =
+                          (log.payload as List<PayloadObject>)[index];
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            payloadObject.label,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          Expanded(
+                            child: Text(
+                              payloadObject.value ?? 'null',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) => SizedBox(height: 4),
+                    itemCount:
+                        (log.payload as List<PayloadObject>?)?.length ?? 0,
+                  )
+                : Text(
+                    log.payload != null
+                        ? log.payload.toString()
+                        : 'No payload provided',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+          ),
+        ],
       ),
     );
   }

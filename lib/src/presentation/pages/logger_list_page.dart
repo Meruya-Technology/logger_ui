@@ -91,7 +91,13 @@ class _LoggerListPageState extends State<LoggerListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
-      body: Column(children: [filterSection(context), listSection(context)]),
+      body: SafeArea(
+        child: Column(
+          spacing: 16,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [filterSection(context), listSection(context)],
+        ),
+      ),
     );
   }
 
@@ -221,6 +227,7 @@ class _LoggerListPageState extends State<LoggerListPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Wrap(
                 spacing: 8,
+                alignment: WrapAlignment.start,
                 children: snapshot.data!
                     .map(
                       (flag) => FilterChip(
@@ -253,9 +260,8 @@ class _LoggerListPageState extends State<LoggerListPage> {
             debugPrint('Logs: ${snapshot.data}');
             if (snapshot.hasData) {
               return ListView.separated(
-                padding: EdgeInsets.all(16),
                 itemCount: snapshot.data?.length ?? 0,
-                separatorBuilder: (context, index) => SizedBox(height: 16),
+                separatorBuilder: (context, index) => Divider(height: 0),
                 itemBuilder: (context, index) {
                   final data = snapshot.data![index];
                   return LoggerListTile(log: data);
