@@ -1,11 +1,10 @@
 import 'package:logger_ui/src/domain/entities/log_type.dart';
-import 'package:logger_ui/src/domain/entities/payload_type.dart';
+import 'package:logger_ui/src/domain/entities/payload_object.dart';
 
 class Log {
   final int? id;
   final String title;
-  final dynamic payload;
-  final PayloadType? payloadType;
+  final List<PayloadItem>? payloads;
   final String? flags;
   final LogType type;
   final int createdAt;
@@ -15,8 +14,7 @@ class Log {
   Log({
     this.id,
     required this.title,
-    this.payload,
-    this.payloadType,
+    this.payloads,
     this.flags,
     required this.type,
     required this.createdAt,

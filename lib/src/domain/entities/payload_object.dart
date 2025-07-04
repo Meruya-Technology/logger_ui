@@ -1,6 +1,6 @@
-class PayloadObject {
+class PayloadItem {
   final String label;
   final String? value;
 
-  PayloadObject({required this.label, this.value});
+  PayloadItem({required this.label, this.value});
 }

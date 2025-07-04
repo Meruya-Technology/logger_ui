@@ -5,10 +5,8 @@ import 'package:flutter/services.dart';
 class LogModel {
   final int? id;
   final String title;
-  final String? payload;
-  final int? payloadType;
+  final String? payloads;
   final String? flags;
-  final int type;
   final int createdAt;
   final int isRead;
   final int? readedAt;
@@ -16,10 +14,8 @@ class LogModel {
   LogModel({
     this.id,
     required this.title,
-    this.payload,
-    this.payloadType,
+    this.payloads,
     this.flags,
-    required this.type,
     required this.createdAt,
     this.isRead = 0, // 0 for false, 1 for true
     this.readedAt,
@@ -31,9 +27,7 @@ class LogModel {
     id: json['id'],
     title: json['title'],
     flags: json['flags'],
-    payload: json['payload'],
-    payloadType: json['payload_type'],
-    type: json['type'],
+    payloads: json['payload'],
     createdAt: json['created_at'],
     isRead: json['is_read'],
     readedAt: json['readed_at'],
@@ -44,9 +38,7 @@ class LogModel {
     json['id'] = id;
     json['title'] = title;
     json['flags'] = flags;
-    json['payload'] = payload;
-    json['payload_type'] = payloadType;
-    json['type'] = type;
+    json['payload'] = payloads;
     json['created_at'] = createdAt;
     json['is_read'] = isRead;
     json['readed_at'] = readedAt;

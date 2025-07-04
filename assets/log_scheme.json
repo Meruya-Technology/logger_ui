@@ -17,11 +17,6 @@
             "attribute": null
         },
         {
-            "fields": "payload_type",
-            "type":"int",
-            "attribute": null
-        },
-        {
             "fields": "flags",
             "type":"text",
             "attribute": null

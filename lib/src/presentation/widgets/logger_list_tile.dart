@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logger_ui/logger_ui.dart';
 
+import 'labeled_text.dart';
+
 class LoggerListTile extends StatelessWidget {
   final Log log;
   const LoggerListTile({required this.log, super.key});
@@ -54,39 +56,20 @@ class LoggerListTile extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: log.payloadType == PayloadType.list
-                ? ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final payloadObject =
-                          (log.payload as List<PayloadObject>)[index];
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            payloadObject.label,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Expanded(
-                            child: Text(
-                              payloadObject.value ?? 'null',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(height: 4),
-                    itemCount:
-                        (log.payload as List<PayloadObject>?)?.length ?? 0,
-                  )
-                : Text(
-                    log.payload != null
-                        ? log.payload.toString()
-                        : 'No payload provided',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final payloadObject =
+                    (log.payloads as List<PayloadItem>)[index];
+                return LabeledText(
+                  label: payloadObject.label,
+                  value: payloadObject.value?.toString(),
+                );
+              },
+              separatorBuilder: (context, index) => SizedBox(height: 4),
+              itemCount: log.payloads?.length ?? 0,
+            ),
           ),
         ],
       ),

@@ -104,11 +104,10 @@ class HomePage extends StatelessWidget {
                   title: 'Info log',
                   type: LogType.info,
                   flags: 'example,ble,lte',
-                  payloadType: PayloadType.list,
-                  payload: [
-                    PayloadObject(label: 'key1', value: 'value1'),
-                    PayloadObject(label: 'key2', value: 'value2'),
-                    PayloadObject(label: 'key3', value: 'value3'),
+                  payloads: [
+                    PayloadItem(label: 'key1', value: 'value1'),
+                    PayloadItem(label: 'key2', value: 'value2'),
+                    PayloadItem(label: 'key3', value: 'value3'),
                   ],
                   createdAt: DateTime.now().millisecondsSinceEpoch,
                 ),
