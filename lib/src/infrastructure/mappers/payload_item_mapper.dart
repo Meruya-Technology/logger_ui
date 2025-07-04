@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:logger_ui/src/domain/entities/payload_object.dart';
 
 class PayloadItemMapper {
-  static PayloadItem toEntity(Map<String, String?> model) {
-    return PayloadItem(label: model['label'] ?? '', value: model['value']);
+  static List<PayloadItem> toListEntity(Map<String, dynamic> model) {
+    final result = model.entries.map(
+      (entry) => PayloadItem(label: entry.key, value: entry.value),
+    );
+    return result.toList();
   }
 
   static String? toStringJson(List<PayloadItem> entities) {

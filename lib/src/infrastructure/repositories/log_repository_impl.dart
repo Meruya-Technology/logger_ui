@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:logger_ui/src/domain/entities/log.dart';
 import 'package:logger_ui/src/domain/repositories/log_repository.dart';
 import 'package:logger_ui/src/infrastructure/datasources/log_datasource.dart';
@@ -21,9 +22,10 @@ class LogRepositoryImpl implements LogRepository {
 
   @override
   Future<List<Log>?> retrieveLog({String? flags}) async {
-    final results = await datasource.retrieveLog(flags: flags);
-    return results != null
-        ? List<Log>.from(results.map((result) => LogMapper.toEntity(result)))
+    final models = await datasource.retrieveLog(flags: flags);
+    debugPrint('Payloads: ${models?.length}');
+    return models != null
+        ? List<Log>.from(models.map((model) => LogMapper.toEntity(model)))
         : null;
   }
 

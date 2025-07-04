@@ -54,21 +54,32 @@ class LoggerListTile extends StatelessWidget {
           ],
         ),
         children: [
-          Padding(
+          Container(
+            width: double.maxFinite,
             padding: const EdgeInsets.all(16),
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final payloadObject =
-                    (log.payloads as List<PayloadItem>)[index];
-                return LabeledText(
-                  label: payloadObject.label,
-                  value: payloadObject.value?.toString(),
-                );
-              },
-              separatorBuilder: (context, index) => SizedBox(height: 4),
-              itemCount: log.payloads?.length ?? 0,
+            child: Visibility(
+              visible: log.payloads != null && log.payloads!.isNotEmpty,
+              replacement: Text(
+                log.payloads != null
+                    ? log.payloads.toString()
+                    : 'No payload provided',
+                textAlign: TextAlign.start,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final payloadObject =
+                      (log.payloads as List<PayloadItem>)[index];
+                  return LabeledText(
+                    label: payloadObject.label,
+                    value: payloadObject.value?.toString(),
+                  );
+                },
+                separatorBuilder: (context, index) => SizedBox(height: 4),
+                itemCount: log.payloads?.length ?? 0,
+              ),
             ),
           ),
         ],

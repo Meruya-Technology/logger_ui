@@ -5,18 +5,13 @@ import 'package:logger_ui/src/infrastructure/mappers/payload_item_mapper.dart';
 
 class LogMapper {
   static Log toEntity(LogModel model) {
-    final payloads = model.payloads != null
-        ? jsonDecode(model.payloads!)
-        : null;
     return Log(
       id: model.id,
       title: model.title,
       type: LogType.fromInt(model.type),
       flags: model.flags,
       payloads: model.payloads != null
-          ? List<PayloadItem>.from(
-              payloads.map((payload) => PayloadItemMapper.toEntity(payload)),
-            )
+          ? PayloadItemMapper.toListEntity(jsonDecode(model.payloads!))
           : null,
       createdAt: model.createdAt,
       isRead: model.isRead == 1 ? true : false,

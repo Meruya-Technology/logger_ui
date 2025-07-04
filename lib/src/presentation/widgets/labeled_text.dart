@@ -11,8 +11,13 @@ class LabeledText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 4,
       children: [
-        Text(label, style: Theme.of(context).textTheme.labelSmall),
-        Text(value ?? '-', style: Theme.of(context).textTheme.bodyMedium),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+          ),
+        ),
+        Text(value ?? '-', style: Theme.of(context).textTheme.bodyLarge),
       ],
     );
   }

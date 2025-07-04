@@ -83,8 +83,21 @@ class _LoggerListPageState extends State<LoggerListPage> {
     }
   }
 
-  void deleteLogs() {
-    _loggerUi.clear();
+  void deleteLogs(BuildContext context) {
+    _loggerUi.clear()?.then(
+      (result) {
+        if (result) {
+          retrieveLogs();
+        }
+      },
+      onError: (error) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('An error occurred while deleting logs')),
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -129,7 +142,7 @@ class _LoggerListPageState extends State<LoggerListPage> {
               child: IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () {
-                  deleteLogs();
+                  deleteLogs(context);
                 },
               ),
             );
