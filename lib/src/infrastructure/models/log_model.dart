@@ -7,6 +7,7 @@ class LogModel {
   final String title;
   final String? payloads;
   final String? flags;
+  final int type;
   final int createdAt;
   final int isRead;
   final int? readedAt;
@@ -16,6 +17,7 @@ class LogModel {
     required this.title,
     this.payloads,
     this.flags,
+    required this.type,
     required this.createdAt,
     this.isRead = 0, // 0 for false, 1 for true
     this.readedAt,
@@ -28,6 +30,7 @@ class LogModel {
     title: json['title'],
     flags: json['flags'],
     payloads: json['payload'],
+    type: json['type'],
     createdAt: json['created_at'],
     isRead: json['is_read'],
     readedAt: json['readed_at'],
@@ -39,6 +42,7 @@ class LogModel {
     json['title'] = title;
     json['flags'] = flags;
     json['payload'] = payloads;
+    json['type'] = type;
     json['created_at'] = createdAt;
     json['is_read'] = isRead;
     json['readed_at'] = readedAt;
