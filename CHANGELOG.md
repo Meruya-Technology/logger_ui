@@ -1,3 +1,8 @@
+## 0.0.3
+
+* List tile UI Update
+* Payload display update
+
 ## 0.0.2
 
 * Fix excedeed text
