@@ -37,6 +37,7 @@ class _LoggerListPageState extends State<LoggerListPage> {
 
   Future<void> refresh() async {
     retrieveLogs();
+    retrieveFlags();
   }
 
   void changeSelectedFlags(String flag, bool isSelected) {
@@ -86,9 +87,7 @@ class _LoggerListPageState extends State<LoggerListPage> {
   void deleteLogs(BuildContext context) {
     _loggerUi.clear()?.then(
       (result) {
-        if (result) {
-          retrieveLogs();
-        }
+        if (result) refresh();
       },
       onError: (error) {
         if (context.mounted) {
